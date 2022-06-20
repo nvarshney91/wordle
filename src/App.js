@@ -1,23 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Key from './Components/Key';
+import { useEffect, useState} from 'react';
+import axios from 'axios';
+import Wordle from './Components/Wordle';
 function App() {
+  const [solution,setSolution]=useState([])
+  useEffect(()=> {
+    const link_word=`https://random-word-api.herokuapp.com/word?length=5`;
+    async function fetchData(){
+        try{
+          const response =await axios.get(link_word)
+          setSolution(response.data);
+        }catch(error){
+          console.log("!! Sorry, You are not connected to Internet !!")
+        }
+    }
+    fetchData();
+},[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Solution is: {solution}</h1>
+      {solution && <Wordle solution={solution}/>}
+      <Key/>
     </div>
   );
 }
