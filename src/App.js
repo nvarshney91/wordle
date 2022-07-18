@@ -4,13 +4,13 @@ import { useEffect, useState} from 'react';
 import axios from 'axios';
 import Wordle from './Components/Wordle';
 function App() {
-  const [solution,setSolution]=useState([])
+  const [solution,setSolution]=useState("")
   useEffect(()=> {
     const link_word=`https://random-word-api.herokuapp.com/word?length=5`;
     async function fetchData(){
         try{
           const response =await axios.get(link_word)
-          setSolution(response.data);
+          setSolution(response.data[0]);
         }catch(error){
           console.log("!! Sorry, You are not connected to Internet !!")
         }
